@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-lg-4">
+        </div>
+        <div class="col-lg-4">
+             <div class="col-xs-6">
+                 <label id="clickcount" class="badge clickcountlabel">@ViewBag.NumberOfClick</label>
+             </div>
+            <div class="col-xs-6 clickbutton">
+                <button id="CountClick" class="btn btn-primary btn-lg">
+                    Click Counter
+                </button>
+            </div>
+        
+        </div>
+        <div class="col-lg-4">   
+            <div id="exceedclickerror" class="alert alert-warning" role="alert">Maximum click is 10</div>
+        </div>
+    </div>
+  
+  
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#exceedclickerror").hide();
+            $("#CountClick").click(function () {
+                $.ajax({
+                    url: '/home/UpdateCounter',
+                    type: 'POST',
+                    data: {
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#clickcount").text(data);
+                        if (data == 10) {
+                            $("#exceedclickerror").show();
+                        }else
+                        {
+                            $("#exceedclickerror").hide();
+                        }
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            });
+
+        });
+    </script>
+
+}
